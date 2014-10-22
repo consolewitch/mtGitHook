@@ -23,24 +23,24 @@
 
 // Set Variables
 //$LOCAL_ROOT         = "~/git";
-//$LOCAL_REPO_NAME    = "futureecon.org";
+$LOCAL_REPO_NAME    = "ecotrust.org";
 //$LOCAL_REPO         = "{$LOCAL_ROOT}/{$LOCAL_REPO_NAME}";
-$REMOTE_REPO        = "https://github.com/Ecotrust/futureecon.org.git";
+$REMOTE_REPO        = "git@github.com:Ecotrust/ecotrust.org.git";
 //$BRANCH             = "master";
 
-if ( $_POST['payload'] ) {
+if ( True /** $_POST['payload'] **/ ) {
 // Only respond to POST requests from Github
 
-  if( file_exists("../git/futureecon.org") ) {
+  if( file_exists("../git/{$LOCAL_REPO_NAME}") ) {
 
     // If there is already a repo, just run a git pull to grab the latest changes
-    shell_exec("(cd ../git/futureecon.org && git pull) && cp -a ../git/futureecon.org/app/* ../html/wp-content/");
+    shell_exec("(cd ../git/{$LOCAL_REPO_NAME} && git pull) && cp -a ../git/{$LOCAL_REPO_NAME}/app/* ../html/wp-content/");
     die("done pulling ".time()."\n" );
 
   } else {
 
     // If the repo does not exist, then clone it into the parent directory
-    shell_exec("cd ../git && git clone {$REMOTE_REPO} && cp -a ./futureecon.org/app/* ../html/wp-content/");
+    shell_exec("cd ../git && git clone {$REMOTE_REPO} && cp -a ./{$LOCAL_REPO_NAME}/app/* ../html/wp-content/");
     die("done cloning ".time()."\n" );
   }
 print $_POST['payload'];
@@ -49,4 +49,3 @@ else {
         print "payload fail" . time();
 }
 ?>
-
